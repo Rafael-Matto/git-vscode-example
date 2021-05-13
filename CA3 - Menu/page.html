@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+</head>
+<body>
+  
+  <div id="div1">
+      <h2>Staff Password</h2>
+      <label for="pwd">Password: </label>
+      <input id="pwd" type="password" name="pwd" minlength="8" onclick="requirements()"></input>
+      <button onclick="verifyPassword()">Validate Pasword</button>
+   <script>
+     function hasLowerCase(password) {
+   return str.toUpperCase() != str;
+}
+
+function hasUpperCase(password){
+  return str.toLowerCase() != str;
+}
+
+function isValid(password){
+  return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(password);
+
+}
+
+function verifyPassword() {  
+ var password = document.getElementById("pswd").value;  
+  
+ if(password == "") {  
+    document.getElementById("message").innerHTML = "**Fill the password please!";  
+    return false;  
+ }  
+ 
+var upperCase = hasUpperCase(password);
+var lowerCase = hasLowerCase(password);
+var specialCharacter = isValid(password);
+
+if(upperCase == false){
+document.getElementById("message").innerHTML = "At least 1 Uppercase letter!";  
+    return false;  	
+}
+
+if(specialCharacter == false){
+document.getElementById("message").innerHTML = "At least 1 special character!";  
+    return false;  	
+}
+
+if(lowerCase == false){
+document.getElementById("message").innerHTML = "At least 1 Lowercase letter!";  
+    return false;  
+}	
+ }
+  
+ if(password.length >= 8) {  
+    document.getElementById("message").innerHTML = "**Password length must not exceed 15 characters";  
+    return false;  
+ } else {  
+    alert("Password is correct");  
+ }
+
+     document.addEventListener("pwd").innerHTML = output;
+   </script>
+   
+    </div>
+
+
+   <br>
+
+   <div>
+     <h2>Customers</h2>
+     <br>
+     <button id="getuser">Get Custormers</button>  
+     <p id="customers"></p>
+     <br>
+      
+      
+
+   </div>
+  <script>
+  //Importing data from JSON users
+  document.getElementById('getuser').addEventListener('click', getUsers);
+  function getUsers() {
+      fetch('https://randomuser.me/api/?results=5')
+          .then((res) => res.json())
+          .then((data) => {
+              let author = data.results;
+              let output = ''
+              console.log(data);
+              author.forEach(function (user) {
+                  output +=
+                      // Choosing the information from the users I want to be shown
+                      `
+              <div>
+                  <p> <h2>Name: ${user.name.first}</h2></p>
+                      <div><img src="${user.picture.medium}"></div>
+                  <p>Phone Number: ${user.phone}</p>
+                  <p> Date of Birth: ${user.dob.date}</p>
+                  <p>Age: ${user.dob.age} </p>
+                  <p>Email: ${user.email}</p>
+                  <p>Gender: ${user.gender} </p>
+                  <p>City: ${user.location.city} </p>
+                  <p>Country: ${user.location.country} </p>
+                  <p>Post Code: ${user.location.postcode} </p>
+                    
+              </div>
+              `;
+              });
+  
+              //output my users Array in this part of my Html Code
+              document.getElementById('customers').innerHTML = output;
+  
+          })
+  
+  }
+  
+ </script>
+   
+</body>
+</html>
